@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Add Product</title>
+</head>
+<body>
+    <h2>Add New Product</h2>
+    <form id="product-form" enctype="multipart/form-data">
+        <label>Product Name:</label>
+        <input type="text" id="name" required><br>
+
+        <label>Price:</label>
+        <input type="number" id="price" required><br>
+
+        <label>Description:</label>
+        <textarea id="description" required></textarea><br>
+
+        <label>Image:</label>
+        <input type="file" id="image" accept="image/*"><br>
+
+        <label>Video:</label>
+        <input type="file" id="video" accept="video/*"><br>
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    <script>
+        document.getElementById("product-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let formData = new FormData();
+            formData.append("name", document.getElementById("name").value);
+            formData.append("price", document.getElementById("price").value);
+            formData.append("description", document.getElementById("description").value);
+            formData.append("image", document.getElementById("image").files[0]);  // Image file
+            formData.append("video", document.getElementById("video").files[0]);  // Video file
+
+            fetch('/api/add_product/', {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))  // Success message show hoga
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Checkout</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Pay with Razorpay</h2>
+    <button id="pay-btn">Pay Now</button>
+
+    <script>
+        document.getElementById("pay-btn").addEventListener("click", function () {
+            fetch("/api/create-order/")
+                .then(response => response.json())
+                .then(order => {
+                    var options = {
+                        "key": "RAZORPAY_KEY_ID", // Replace with your Razorpay Key
+                        "amount": order.amount,
+                        "currency": "INR",
+                        "order_id": order.id,
+                        "handler": function (response) {
+                            fetch("/api/verify-payment/", {
+                                method: "POST",
+                                body: new URLSearchParams(response),
+                                headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                            }).then(res => res.json())
+                              .then(data => alert(data.status));
+                        }
+                    };
+
+                    var rzp = new Razorpay(options);
+                    rzp.open();
+                });
+        });
+    </script>
+</body>
+</html>
