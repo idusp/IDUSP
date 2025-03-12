@@ -44,3 +44,12 @@ urlpatterns = [
     path('api/', include('apis.urls')),  # Ensure your API routes are included
     path('', home, name='home'),  # Add this line for the home page
 ]
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    # Tumhare baaki URLs yahan rahenge
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

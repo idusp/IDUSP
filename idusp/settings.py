@@ -5,9 +5,11 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
-SECRET_KEY = 'your-secret-key'
-DEBUG = True
-ALLOWED_HOSTS = []
+import os
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default_secret_key')
+
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 
 # Installed Apps
 INSTALLED_APPS = [
@@ -53,6 +55,10 @@ TEMPLATES = [
 
 # WSGI Application
 WSGI_APPLICATION = 'idusp.wsgi.application'
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+}
 
 # Database Configuration
 DATABASES = {
@@ -67,8 +73,14 @@ import os
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+import os
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Ensure this path exists
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')  # Your app-level static files
+]
+
 
 # Default Primary Key Field Type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -90,4 +102,12 @@ CSRF_COOKIE_HTTPONLY = False
 
 AUTH_USER_MODEL = "apis.CustomUser"
 
+ALLOWED_HOSTS = ["your-app-name.onrender.com"]
+
+# Static files ke liye Whitenoise use karo
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    ...
+]
 
