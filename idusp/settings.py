@@ -111,3 +111,11 @@ MIDDLEWARE = [
     ...
 ]
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # .env file read karega
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
+DEBUG = os.getenv('DEBUG') == 'True'
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
