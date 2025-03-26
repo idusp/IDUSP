@@ -67,7 +67,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+unset DATABASE_URL
 import os
 
 MEDIA_URL = "/media/"
