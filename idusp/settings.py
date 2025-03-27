@@ -68,6 +68,7 @@ DATABASES = {
     }
 }
 unset DATABASE_URL
+
 import os
 
 MEDIA_URL = "/media/"
@@ -108,7 +109,7 @@ ALLOWED_HOSTS = ["your-app-name.onrender.com"]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    ...
+    
 ]
 
 import os
